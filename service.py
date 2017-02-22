@@ -16,7 +16,6 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.send_header('Content-type','text/html')
 		self.send_header('Access-Control-Allow-Origin','*')
-		self.end_headers()
 
 		if self.path == '/':
 			message = bytes(myhandler.getJsonString(), "utf8")
@@ -27,7 +26,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 				message =  myhandler.getData(self.path)
 			except:
 				message = bytes("", "utf8")
+				self.send_response(404)
 		
+		self.end_headers()
 		self.wfile.write(message)
 		return
 
@@ -35,10 +36,12 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.send_header('Content-type','text/html')
 		self.send_header('Access-Control-Allow-Origin','*')
-		self.end_headers()
-		if not self.path in antiPost  :
+		if not self.path in antiPost :
 			content_len = int(self.headers['Content-Length'])
 			myhandler.saveData(self.rfile.read(content_len), self.path)
+		else:
+			self.send_response(404)
+		self.end_headers()	
 		return;
 
 	def do_OPTIONS(self):
