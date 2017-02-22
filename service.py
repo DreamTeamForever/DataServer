@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from socketserver import ThreadingMixIn
+import threading
 import myhandler
 
 antiPost = ['/', '/list']
@@ -46,11 +48,12 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		return;
 
-def run():
+class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+	"""thet's all =)"""
+
+if __name__ == '__main__':
 	print("starting server...")
 	server_address = ('', 9099)
-	httpd = HTTPServer(server_address, MyHTTPRequestHandler)
-	print("running server...")
+	httpd =  ThreadedHTTPServer(server_address, MyHTTPRequestHandler)
+	print("running server... use <Ctrl-C> to stop")
 	httpd.serve_forever()
-
-run()
