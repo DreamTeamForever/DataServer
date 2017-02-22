@@ -4,6 +4,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 import threading
 import myhandler
+import strip
 
 antiPost = ['/', '/list']
 
