@@ -1,0 +1,284 @@
+{
+    "AvailPower": 620,
+    "Generators": [
+        {
+            "AvailPower": 180,
+            "GeneratorType": 0,
+            "Ident": "G_Solar_#1",
+            "IsOn": true,
+            "ReqiredPower": 168
+        },
+        {
+            "AvailPower": 240,
+            "GeneratorType": 1,
+            "Ident": "G_Wind_#2",
+            "IsOn": true,
+            "ReqiredPower": 168
+        }
+    ],
+    "ReqiredPower": 536,
+    "ReservedGenerators": [
+        {
+            "AvailPower": 100,
+            "GeneratorType": 2,
+            "Ident": "G_Diesel_#3",
+            "IsOn": true,
+            "ReqiredPower": 100
+        },
+        {
+            "AvailPower": 100,
+            "GeneratorType": 3,
+            "Ident": "G_Accumulator_#4",
+            "IsOn": true,
+            "ReqiredPower": 100
+        },
+        {
+            "AvailPower": 0,
+            "GeneratorType": 3,
+            "Ident": "G_Accumulator_#5",
+            "IsOn": false,
+            "ReqiredPower": 0
+        }
+    ],
+    "Subnets": [
+        {
+            "AvailPower": 169,
+            "Ident": "L_#1",
+            "IsOn": true,
+            "Items": [
+                {
+                    "ConsumerType": 0,
+                    "Ident": "PWC_ResidentialCommunity_#1",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 84,
+                            "IsOn": true,
+                            "ReqiredPower": 74,
+                            "SubnetLink": "L_#1"
+                        }
+                    ]
+                },
+                {
+                    "ConsumerType": 0,
+                    "Ident": "PWC_ResidentialCommunity_#2",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 84,
+                            "IsOn": true,
+                            "ReqiredPower": 74,
+                            "SubnetLink": "L_#1"
+                        }
+                    ]
+                }
+            ],
+            "ReqiredPower": 148
+        },
+        {
+            "AvailPower": 275,
+            "Ident": "L_#2",
+            "IsOn": true,
+            "Items": [
+                {
+                    "ConsumerType": 0,
+                    "Ident": "PWC_ResidentialCommunity_#3",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 67,
+                            "IsOn": true,
+                            "ReqiredPower": 60,
+                            "SubnetLink": "L_#2"
+                        }
+                    ]
+                },
+                {
+                    "ConsumerType": 0,
+                    "Ident": "PWC_ResidentialCommunity_#4",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 81,
+                            "IsOn": true,
+                            "ReqiredPower": 74,
+                            "SubnetLink": "L_#2"
+                        }
+                    ]
+                },
+                {
+                    "ConsumerType": 1,
+                    "Ident": "PWC_Hospital_#5",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 127,
+                            "IsOn": true,
+                            "ReqiredPower": 120,
+                            "SubnetLink": "L_#2"
+                        },
+                        {
+                            "AvailPower": 0,
+                            "IsOn": false,
+                            "ReqiredPower": 0,
+                            "SubnetLink": ""
+                        }
+                    ]
+                }
+            ],
+            "ReqiredPower": 254
+        },
+        {
+            "AvailPower": 81,
+            "Ident": "L_#3",
+            "IsOn": true,
+            "Items": [
+                {
+                    "ConsumerType": 0,
+                    "Ident": "PWC_ResidentialCommunity_#6",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 81,
+                            "IsOn": true,
+                            "ReqiredPower": 60,
+                            "SubnetLink": "L_#3"
+                        }
+                    ]
+                },
+                {
+                    "ConsumerType": 0,
+                    "Ident": "PWC_ResidentialCommunity_#7",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 0,
+                            "IsOn": false,
+                            "ReqiredPower": 0,
+                            "SubnetLink": "L_#3"
+                        }
+                    ]
+                },
+                {
+                    "ConsumerType": 2,
+                    "Ident": "PWC_Factory_#8",
+                    "SubnetLinks": [
+                        {
+                            "AvailPower": 0,
+                            "IsOn": false,
+                            "ReqiredPower": 0,
+                            "SubnetLink": "L_#3"
+                        },
+                        {
+                            "AvailPower": 0,
+                            "IsOn": false,
+                            "ReqiredPower": 0,
+                            "SubnetLink": ""
+                        }
+                    ]
+                }
+            ],
+            "ReqiredPower": 60
+        }
+    ],
+    "Substation": {
+        "AvailPower": 95,
+        "IsOn": true,
+        "ReqiredPower": 74,
+        "Subnets": [
+            {
+                "AvailPower": 95,
+                "Ident": "L_#20",
+                "IsOn": true,
+                "Items": [
+                    {
+                        "ConsumerType": 0,
+                        "Ident": "PWC_ResidentialCommunity_#22",
+                        "SubnetLinks": [
+                            {
+                                "AvailPower": 95,
+                                "IsOn": true,
+                                "ReqiredPower": 74,
+                                "SubnetLink": "L_#20"
+                            }
+                        ]
+                    },
+                    {
+                        "ConsumerType": 0,
+                        "Ident": "PWC_ResidentialCommunity_#23",
+                        "SubnetLinks": [
+                            {
+                                "AvailPower": 0,
+                                "IsOn": false,
+                                "ReqiredPower": 0,
+                                "SubnetLink": "L_#20"
+                            }
+                        ]
+                    },
+                    {
+                        "ConsumerType": 1,
+                        "Ident": "PWC_Hospital_#5",
+                        "SubnetLinks": [
+                            {
+                                "AvailPower": 0,
+                                "IsOn": false,
+                                "ReqiredPower": 0,
+                                "SubnetLink": ""
+                            },
+                            {
+                                "AvailPower": 0,
+                                "IsOn": false,
+                                "ReqiredPower": 0,
+                                "SubnetLink": "L_#20"
+                            }
+                        ]
+                    }
+                ],
+                "ReqiredPower": 74
+            },
+            {
+                "AvailPower": 0,
+                "Ident": "L_#21",
+                "IsOn": false,
+                "Items": [
+                    {
+                        "ConsumerType": 0,
+                        "Ident": "PWC_ResidentialCommunity_#24",
+                        "SubnetLinks": [
+                            {
+                                "AvailPower": 0,
+                                "IsOn": false,
+                                "ReqiredPower": 0,
+                                "SubnetLink": "L_#21"
+                            }
+                        ]
+                    },
+                    {
+                        "ConsumerType": 0,
+                        "Ident": "PWC_ResidentialCommunity_#25",
+                        "SubnetLinks": [
+                            {
+                                "AvailPower": 0,
+                                "IsOn": false,
+                                "ReqiredPower": 0,
+                                "SubnetLink": "L_#21"
+                            }
+                        ]
+                    },
+                    {
+                        "ConsumerType": 2,
+                        "Ident": "PWC_Factory_#8",
+                        "SubnetLinks": [
+                            {
+                                "AvailPower": 0,
+                                "IsOn": false,
+                                "ReqiredPower": 0,
+                                "SubnetLink": ""
+                            },
+                            {
+                                "AvailPower": 0,
+                                "IsOn": false,
+                                "ReqiredPower": 0,
+                                "SubnetLink": "L_#21"
+                            }
+                        ]
+                    }
+                ],
+                "ReqiredPower": 0
+            }
+        ]
+    }
+}
