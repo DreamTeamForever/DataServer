@@ -38,8 +38,17 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.send_header('Content-type','text/html')
 		self.send_header('Access-Control-Allow-Origin','*')
 		if not self.path in antiPost :
-			content_len = int(self.headers['Content-Length'])
-			myhandler.saveData(self.rfile.read(content_len), self.path)
+			if self.path == '/startGame':
+	#			self.gameStatus.isStart = True
+				print('start game')
+				#TODO data handler
+			elif self.path == '/stopGame':
+	#			self.gameStatus.isStart = False
+				print('stop game')
+				#TODO data handler
+			else:
+				content_len = int(self.headers['Content-Length'])
+				myhandler.saveData(self.rfile.read(content_len), self.path)
 		else:
 			self.send_response(404)
 		self.end_headers()	
