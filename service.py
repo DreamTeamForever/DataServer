@@ -5,10 +5,13 @@ from socketserver import ThreadingMixIn
 import threading
 import myhandler
 import strip
+import json
+from graph import GraphMaker
 
 antiPost = ['/', '/list']
 
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
+	isStart = False
 	def setup(self):
 		BaseHTTPRequestHandler.setup(self)
 		self.request.settimeout(10)
@@ -20,8 +23,12 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
 		if self.path == '/':
 			message = bytes(myhandler.getJsonString(), "utf8")
-		elif self.path == '/list':
-			message = bytes(myhandler.getList(), "utf8")
+		elif self.path == '/testGraphData':
+			gm = GraphMaker()
+			gm.generateNewData(json.loads(strip.doGET('/PowerSystem/GetShot')))
+			testJson = bytes(json.dumps(gm.getResult()), 'utf8')
+			# myhandler.saveData(testJson, self.path)
+			message =  testJson
 		else:
 			try:
 				message =  myhandler.getData(self.path)
@@ -39,13 +46,13 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.send_header('Access-Control-Allow-Origin','*')
 		if not self.path in antiPost :
 			if self.path == '/startGame':
-	#			self.gameStatus.isStart = True
+				self.isStart = True
 				print('start game')
-				#TODO data handler
+				#strip.startGame()
 			elif self.path == '/stopGame':
-	#			self.gameStatus.isStart = False
+				self.isStart = False
 				print('stop game')
-				#TODO data handler
+				#strip.stopGame()
 			else:
 				content_len = int(self.headers['Content-Length'])
 				myhandler.saveData(self.rfile.read(content_len), self.path)
