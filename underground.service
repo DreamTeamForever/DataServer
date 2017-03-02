@@ -1,0 +1,15 @@
+[Unit]
+Description=Underground
+After=network.service
+
+[Service]
+PIDFile=/tmp/pidUnderground
+WorkingDirectory=/home/user/develop/dataServer.get
+User=user
+Group=user
+
+ExecStart=/home/user/develop/dataServer.get/service.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target 
