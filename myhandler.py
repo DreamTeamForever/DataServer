@@ -2,6 +2,17 @@ import json
 from datetime import datetime
 from os import listdir
 from os.path import isfile, join
+import json
+from graph import GraphMaker
+import strip
+
+def getDataChart():
+	return(bytes("", 'utf8'))
+
+def getGraphData():
+	gm = GraphMaker()
+	gm.generateNewData(json.loads(strip.doGET('/PowerSystem/GetShot')))
+	return bytes(json.dumps(gm.getResult()), 'utf8')
 
 def getJsonString():
     res =   [
@@ -44,9 +55,3 @@ def saveData(data, name):
 def getData(path):
 	with open("./data/"+path.replace('/', '_'), "rb") as f:
 		return f.read()
-
-def getList():
-	result = "<http><body>"
-	result += "".join(["<p><a href=\"http://82.117.171.124:9099{0}\">{0}</a></p>".format(i.replace('_', '/')) for i in listdir("./data/") if isfile(join("./data/", i))])
-	result += "</body></http>"
-	return result

@@ -4,14 +4,12 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 import threading
 import myhandler
-import strip
-import json
-from graph import GraphMaker
 
-antiPost = ['/', '/list']
+antiPost = ['/']
 
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 	isStart = False
+
 	def setup(self):
 		BaseHTTPRequestHandler.setup(self)
 		self.request.settimeout(10)
@@ -23,12 +21,10 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
 		if self.path == '/':
 			message = bytes(myhandler.getJsonString(), "utf8")
-		elif self.path == '/testGraphData':
-			gm = GraphMaker()
-			gm.generateNewData(json.loads(strip.doGET('/PowerSystem/GetShot')))
-			testJson = bytes(json.dumps(gm.getResult()), 'utf8')
-			# myhandler.saveData(testJson, self.path)
-			message =  testJson
+		# elif self.path == '/testGraphData':
+		# 	message =  myhandler.getGraphData()
+		elif self.path == '/dataChart':
+			message =  myhandler.getDataChart()
 		else:
 			try:
 				message =  myhandler.getData(self.path)
@@ -59,13 +55,6 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 		else:
 			self.send_response(404)
 		self.end_headers()	
-		return;
-
-	def do_OPTIONS(self):
-		self.send_response(200)
-		self.send_header('Access-Control-Allow-Origin','*')
-		self.send_header('Access-Control-Allow-Methods','GET, POST, OPTIONS')
-		self.end_headers()
 		return;
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
