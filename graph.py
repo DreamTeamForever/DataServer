@@ -82,7 +82,7 @@ class GraphMaker:
 		        "step": self.step,
 		        "input": obj["AvailPower"] if "AvailPower" in obj else -1,
 		        "output": obj["ReqiredPower"] if "ReqiredPower" in obj else -1,
-		        "average_load": obj["Overload"] if "Overload" in obj else -1
+		        "average_load": str(obj["Overload"] if "Overload" in obj else -1) 
       		}
 
 		for i in self.data:

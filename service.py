@@ -49,7 +49,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 			elif self.path == '/stopGame':
 				self.isStart = False
 				print('stop game')
-				#strip.stopGame()
+				strip.stopGame()
 			else:
 				content_len = int(self.headers['Content-Length'])
 				myhandler.saveData(self.rfile.read(content_len), self.path)

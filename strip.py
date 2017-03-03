@@ -33,5 +33,6 @@ def startGame():
 	return
 
 def stopGame():
-	doGET('/PowerSystem/StopGame')
+	res = doGET('/PowerSystem/StopGame')
+	print(res)
 	return
