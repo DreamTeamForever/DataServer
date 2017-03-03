@@ -4,11 +4,11 @@ After=network.service
 
 [Service]
 PIDFile=/tmp/pidUnderground
-WorkingDirectory=/home/user/develop/dataServer.get
+WorkingDirectory=/opt/dataServer.git
 User=user
 Group=user
 
-ExecStart=/home/user/develop/dataServer.get/service.py
+ExecStart=/opt/dataServer.git/service.py
 Restart=always
 
 [Install]

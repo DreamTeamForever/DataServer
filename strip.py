@@ -1,7 +1,7 @@
 import http.client
 import json
 
-server_url = '10.0.0.4:8888'
+server_url = '10.0.0.7:8888'
 def doGET(url):
 	conn = http.client.HTTPConnection(server_url)
 	conn.request('GET', url)
@@ -11,7 +11,6 @@ def doGET(url):
 	return data
 
 def doPOST(url, data):
-	print(data)
 	conn = http.client.HTTPConnection(server_url)
 	conn.request('POST', url, data, {"Content-type": "application/json"})
 	response = conn.getresponse()
@@ -29,10 +28,8 @@ def startGame():
 	with open('./data/_modelCollections', 'r') as f:
 		buf['models'] = json.loads(f.read())
 
-	request_data = bytes(json.dumps(buf), 'utf8')
-	res = doPOST('/PowerSystem/StartGame', request_data)
+	res = doPOST('/PowerSystem/StartGame', bytes(json.dumps({"clientmodel": buf}), 'utf8'))
 	print(str(res.status), res.read())
-
 	return
 
 def stopGame():

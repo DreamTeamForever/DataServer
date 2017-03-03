@@ -4,6 +4,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 import threading
 import myhandler
+import strip
 
 antiPost = ['/']
 
@@ -21,8 +22,8 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
 		if self.path == '/':
 			message = bytes(myhandler.getJsonString(), "utf8")
-		# elif self.path == '/testGraphData':
-		# 	message =  myhandler.getGraphData()
+		elif self.path == '/testGraphData':
+			message =  myhandler.getGraphData()
 		elif self.path == '/dataChart':
 			message =  myhandler.getDataChart()
 		else:
@@ -44,7 +45,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 			if self.path == '/startGame':
 				self.isStart = True
 				print('start game')
-				#strip.startGame()
+				strip.startGame()
 			elif self.path == '/stopGame':
 				self.isStart = False
 				print('stop game')

@@ -1,10 +1,11 @@
 import json
-import strip
 
 
 class GraphMaker:
 	def __init__(self):
 		self.stickCount = 0
+		self.step = 0
+		self.data = []
 		self.electric_substaion = {
 			'data':{
 				"id": "electric_substaion_0",
@@ -44,6 +45,9 @@ class GraphMaker:
 	def getResult(self):
 		return {'nodes': self.nodes, 'edges': self.edges}
 
+	def getData(self):
+		return self.data
+
 	def getNewNode(self, data):
 		buf = {}
 		buf['id'] = data['Ident']
@@ -73,13 +77,31 @@ class GraphMaker:
 			buf['label'] = 'хз чо это'
 		return {'data':buf}
 
+	def insertData(self, obj):
+		d = {
+		        "step": self.step,
+		        "input": obj["AvailPower"] if "AvailPower" in obj else -1,
+		        "output": obj["ReqiredPower"] if "ReqiredPower" in obj else -1,
+		        "average_load": obj["Overload"] if "Overload" in obj else -1
+      		}
+
+		for i in self.data:
+			if i['object_id'] == obj['Ident']:
+				i['object_data'].append(d)
+				return
+		self.data.append({'object_id': obj['Ident'], 'object_data':[d]})
+		return
+
 	def generateNewData(self, data):
+		self.step = self.step + 1
+		self.stickCount = 0
 		if 'Generators' in data:
 			esStick = self.getNewStick()
 			self.nodes.append(esStick)
 			self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
 			for i in data['Generators']:
-				g = self.getNewNode(i) 
+				g = self.getNewNode(i)
+				self.insertData(i) 
 				self.nodes.append(g)
 				self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
 
@@ -88,7 +110,8 @@ class GraphMaker:
 			self.nodes.append(esStick)
 			self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
 			for i in data['ReservedGenerators']:
-				g = self.getNewNode(i) 
+				g = self.getNewNode(i)
+				self.insertData(i)
 				self.nodes.append(g)
 				self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
 
@@ -98,7 +121,8 @@ class GraphMaker:
 				self.nodes.append(esStick)
 				self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
 				for j in i['Items']:
-					g = self.getNewNode(j) 
+					g = self.getNewNode(j)
+					self.insertData(j) 
 					self.nodes.append(g)
 					self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
 
@@ -111,14 +135,10 @@ class GraphMaker:
 					self.nodes.append(esStick)
 					self.edges.append(self.getNewEdge(self.mini_electric_substaion, esStick))
 					for j in i['Items']:
-						g = self.getNewNode(j) 
+						g = self.getNewNode(j)
+						self.insertData(j)
 						self.nodes.append(g)
 						self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
+		# print(json.dumps(self.data, sort_keys=True, indent=4, separators=(',', ':')))
 
 		return
-
-# gm = GraphMaker()
-# with open('jsonData.txt', 'r') as f:
-# 	gm.generateNewData(json.loads(f.read()))
-# testJson = bytes(json.dumps(gm.getResult()), 'utf8')
-# strip.doPOST('/testGraphData', testJson)
