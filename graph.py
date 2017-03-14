@@ -120,6 +120,8 @@ class GraphMaker:
 				esStick = self.getNewStick()
 				self.nodes.append(esStick)
 				self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
+				if i == None:
+					continue
 				for j in i['Items']:
 					g = self.getNewNode(j)
 					self.insertData(j) 
@@ -134,6 +136,8 @@ class GraphMaker:
 					esStick = self.getNewStick()
 					self.nodes.append(esStick)
 					self.edges.append(self.getNewEdge(self.mini_electric_substaion, esStick))
+					if i == None:
+						continue
 					for j in i['Items']:
 						g = self.getNewNode(j)
 						self.insertData(j)

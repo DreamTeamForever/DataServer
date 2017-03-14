@@ -1,7 +1,7 @@
 import http.client
 import json
 
-server_url = '10.0.0.7:8888'
+server_url = '10.0.0.6:8888'
 def doGET(url):
 	conn = http.client.HTTPConnection(server_url)
 	conn.request('GET', url)

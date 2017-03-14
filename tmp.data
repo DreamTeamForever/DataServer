@@ -1,0 +1,1 @@
+{"Generators": [null, null], "Subnets": [null, null, null], "IsModeling": true, "Ident": "", "Substation": {"IsOn": false, "Ident": "SS_001", "Subnets": [null, null], "Overload": NaN, "ReqiredPower": 0, "AvailPower": 0}, "ModelFrame": 5, "ModelTime": 9.249999999999996, "ReservedGenerators": [null, null, null], "Overload": NaN, "ReqiredPower": 0, "AvailPower": 0}
