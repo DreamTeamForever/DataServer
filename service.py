@@ -51,7 +51,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 				myhandler.resetData()
 				print('stop game')
 				strip.stopGame()
-			elif self.path == '/resetDefult':
+			elif self.path == '/resetDefault':
 				print('restart')
 				if not myhandler.resetRequest():
 					self.send_response(500)
