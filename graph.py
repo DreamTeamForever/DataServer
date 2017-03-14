@@ -5,7 +5,7 @@ class GraphMaker:
 	def __init__(self):
 		self.stickCount = 0
 		self.step = 0
-		self.data = []
+		self.data = list()
 		self.electric_substaion = {
 			'data':{
 				"id": "electric_substaion_0",
@@ -139,6 +139,5 @@ class GraphMaker:
 						self.insertData(j)
 						self.nodes.append(g)
 						self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
-		# print(json.dumps(self.data, sort_keys=True, indent=4, separators=(',', ':')))
-
+		
 		return
