@@ -51,25 +51,25 @@ class GraphMaker:
 	def getNewNode(self, data):
 		buf = {}
 		buf['id'] = data['Ident']
-		if 'Wind' in data['Ident']:
+		if 'GW' in data['Ident']:
 			buf['type'] = "wind"
 			buf['label'] = "\u0412\u0435\u0442\u0440\u043e\u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 " + data['Ident'].split('_')[-1]
-		elif 'Solar' in data['Ident']:
+		elif 'GS' in data['Ident']:
 			buf['type'] = 'sun'
 			buf['label'] = "\u0421\u043e\u043b\u043d\u0435\u0447\u043d\u0430\u044f \u0431\u0430\u0442\u0430\u0440\u0435\u044f " + data['Ident'].split('_')[-1]
-		elif 'Diesel' in data['Ident']:
+		elif 'GRD' in data['Ident']:
 			buf['type'] = 'disel'
 			buf['label'] = "\u0414\u0438\u0437\u0435\u043b\u044c \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 " + data['Ident'].split('_')[-1]
-		elif 'Accumulator' in data['Ident']:
+		elif 'GRA' in data['Ident']:
 			buf['type'] = 'accumulate'
 			buf['label'] = "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0430\u043a\u043a\u0443\u043c\u0443\u043b\u044f\u0442\u043e\u0440_" + data['Ident'].split('_')[-1]
-		elif 'Hospital' in data['Ident']:
+		elif 'CH' in data['Ident']:
 			buf['type'] = 'hospital'
 			buf['label'] = "\u0413\u043e\u0441\u043f\u0438\u0442\u0430\u043b\u044c " + data['Ident'].split('_')[-1]	
-		elif 'ResidentialCommunity' in data['Ident']:
+		elif 'CU' in data['Ident']:
 			buf['type'] = 'district'
 			buf['label'] = "\u041c\u0438\u043a\u0440\u043e\u0440\u0430\u0439\u043e\u043d " + data['Ident'].split('_')[-1]	
-		elif 'Factory' in data['Ident']:
+		elif 'CF' in data['Ident']:
 			buf['type'] = 'factory'
 			buf['label'] = "\u0424\u0430\u0431\u0440\u0438\u043a\u0430 " + data['Ident'].split('_')[-1]	
 		else:
