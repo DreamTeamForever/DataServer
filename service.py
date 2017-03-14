@@ -48,11 +48,19 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 				strip.startGame()
 			elif self.path == '/stopGame':
 				self.isStart = False
+				myhandler.resetData()
 				print('stop game')
 				strip.stopGame()
+			elif self.path == '/resetDefult':
+				print('restart')
+				if not myhandler.resetRequest():
+					self.send_response(500)
 			else:
 				content_len = int(self.headers['Content-Length'])
-				myhandler.saveData(self.rfile.read(content_len), self.path)
+				data = self.rfile.read(content_len)
+				myhandler.saveData(data, self.path)
+				if self.isStart and self.path == '/objectCollections':
+					strip.do_POST('/PowerSystem/UpdateObjects', data)
 		else:
 			self.send_response(404)
 		self.end_headers()	
