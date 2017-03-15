@@ -93,55 +93,67 @@ class GraphMaker:
 		return
 
 	def generateNewData(self, data):
-		self.step = self.step + 1
-		self.stickCount = 0
-		if 'Generators' in data:
-			esStick = self.getNewStick()
-			self.nodes.append(esStick)
-			self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
-			for i in data['Generators']:
-				g = self.getNewNode(i)
-				self.insertData(i) 
-				self.nodes.append(g)
-				self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
-
-		if 'ReservedGenerators' in data:
-			esStick = self.getNewStick()
-			self.nodes.append(esStick)
-			self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
-			for i in data['ReservedGenerators']:
-				g = self.getNewNode(i)
-				self.insertData(i)
-				self.nodes.append(g)
-				self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
-
-		if 'Subnets' in data:
-			for i in data['Subnets']:
+		try:
+			self.step = self.step + 1
+			self.stickCount = 0
+			if 'Generators' in data:
 				esStick = self.getNewStick()
 				self.nodes.append(esStick)
 				self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
-				if i == None:
-					continue
-				for j in i['Items']:
-					g = self.getNewNode(j)
-					self.insertData(j) 
+				for i in data['Generators']:
+					if i == None:
+						continue
+					g = self.getNewNode(i)
+					self.insertData(i) 
 					self.nodes.append(g)
 					self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
 
-		if 'Substation' in data:
-			self.nodes.append(self.mini_electric_substaion)
-			self.edges.append(self.getNewEdge(self.electric_substaion, self.mini_electric_substaion))
-			if 'Subnets' in data['Substation']:
-				for i in data['Substation']['Subnets']:
+			if 'ReservedGenerators' in data:
+				esStick = self.getNewStick()
+				self.nodes.append(esStick)
+				self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
+				for i in data['ReservedGenerators']:
+					if i == None:
+						continue
+					g = self.getNewNode(i)
+					self.insertData(i)
+					self.nodes.append(g)
+					self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
+
+			if 'Subnets' in data:
+				for i in data['Subnets']:
 					esStick = self.getNewStick()
 					self.nodes.append(esStick)
-					self.edges.append(self.getNewEdge(self.mini_electric_substaion, esStick))
+					self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
 					if i == None:
 						continue
 					for j in i['Items']:
+						if j == None:
+							continue
 						g = self.getNewNode(j)
-						self.insertData(j)
+						self.insertData(j) 
 						self.nodes.append(g)
 						self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
-		
+
+			if 'Substation' in data:
+				self.nodes.append(self.mini_electric_substaion)
+				self.edges.append(self.getNewEdge(self.electric_substaion, self.mini_electric_substaion))
+				if 'Subnets' in data['Substation']:
+					for i in data['Substation']['Subnets']:
+						esStick = self.getNewStick()
+						self.nodes.append(esStick)
+						self.edges.append(self.getNewEdge(self.mini_electric_substaion, esStick))
+						if i == None:
+							continue
+						for j in i['Items']:
+							if j == None:
+								continue
+							g = self.getNewNode(j)
+							self.insertData(j)
+							self.nodes.append(g)
+							self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
+			
+		except Exception as e:
+			print(str(e))
+			print('invalid grap data')
 		return
