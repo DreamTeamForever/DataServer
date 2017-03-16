@@ -78,8 +78,8 @@ class GraphMaker:
 			buf['type'] = 'factory'
 			buf['label'] = "\u0424\u0430\u0431\u0440\u0438\u043a\u0430 " + data['Ident'].split('_')[-1]
 		elif 'SN' in data['Ident']:
-			buf['type'] = 'subnet'
-			buf['label'] = "Подсеть " + data['Ident'].split('_')[-1]	
+			buf['type'] = 'stick'
+			buf['label'] = ""	
 		else:
 			buf['type'] = 'unknown'
 			buf['label'] = 'хз чо это'
