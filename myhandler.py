@@ -16,7 +16,11 @@ def getDataChart():
 	return(bytes(json.dumps(gm.getData()), 'utf8'))
 
 def getGraphData():
-	gm.generateNewData(json.loads(strip.doGET('/PowerSystem/GetShot')))
+	data = strip.doGET('/PowerSystem/GetShot')
+	if data:
+		gm.generateNewData(json.loads(data))
+	else:
+		print('New graph data nod found. Using old graph data.')
 	return bytes(json.dumps(gm.getResult()), 'utf8')
 
 def saveData(data, name):
