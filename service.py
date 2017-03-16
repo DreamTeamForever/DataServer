@@ -59,8 +59,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 				content_len = int(self.headers['Content-Length'])
 				data = self.rfile.read(content_len)
 				myhandler.saveData(data, self.path)
-				if self.isStart and self.path == '/objectCollections':
-					strip.do_POST('/PowerSystem/UpdateObjects', data)
+				print(self.isStart)
+				if self.path == '/objectCollections':
+					strip.updateObjects()
 		else:
 			self.send_response(404)
 		self.end_headers()	

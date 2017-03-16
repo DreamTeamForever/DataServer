@@ -44,3 +44,13 @@ def stopGame():
 	res = doGET('/PowerSystem/StopGame')
 	print(res)
 	return
+
+
+def updateObjects():
+	buf = {}
+	with open('./data/_objectCollections', 'r') as f:
+		buf['objects'] = json.loads(f.read())
+
+	res = doPOST('/PowerSystem/StartGame', bytes(json.dumps({"clientmodel": buf}), 'utf8'))
+	print(str(res.status), res.read())
+	return
