@@ -6,31 +6,18 @@ class GraphMaker:
 		self.stickCount = 0
 		self.step = 0
 		self.data = list()
-		self.electric_substaion = {
-			'data':{
-				"id": "electric_substaion_0",
-				"label": "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0441\u0442\u0430\u043d\u0446\u0438\u044f",
-				"type": "electric_substaion"
-			}
-		}
-		self.mini_electric_substaion = {
-		    "data": {
-		        "id": "mini_electric_substaion_0",
-		        "label": "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u043f\u043e\u0434\u0441\u0442\u0430\u043d\u0446\u0438\u044f",
-		        "type": "mini_electric_substaion"
-		    }
-		}
-		self.nodes = [
-			self.electric_substaion
-		]
-		self.edges = []
+		self.nodes = dict()
+		self.edges = list()
 		
-	def getNewStick(self):
-		newStick = {"data": {"id": "stick_{}".format(self.stickCount),"label": "","type": "stick"}}
+	def getNewStick(self, node):
+		i = "stick_{}".format(self.stickCount)
+		newStick = {"data": {"id": i,"label": "","type": "stick"}}
 		self.stickCount += 1
+		self.nodes[i] = newStick
+		self.createNewEdge(node, newStick)
 		return newStick
 
-	def getNewEdge(self, source, dest, color = "#6FB1FC", weight = 10):
+	def createNewEdge(self, source, dest, color = "#6FB1FC", weight = 10):
 		edge = {
 			'data':{
 				'color': color,
@@ -40,18 +27,36 @@ class GraphMaker:
 				"weight": weight
 			}
 		}
-		return edge
+		self.edges.append(edge)
+		return
 
 	def getResult(self):
-		return {'nodes': self.nodes, 'edges': self.edges}
+		return {'nodes': [self.nodes[i] for i in self.nodes], 'edges': self.edges}
+
+	def getColor(self, i):
+		return "#74E883" if i['IsOn'] else "#E8747C"
 
 	def getData(self):
 		return self.data
 
-	def getNewNode(self, data):
-		buf = {}
+	def getNode(self, nodeId):
+		if nodeId in self.nodes:
+			return self.nodes[nodeId]
+		else:
+			return None
+
+	def createNewNode(self, data):
+		if data['Ident'] in self.nodes:
+			return self.nodes[data['Ident']]
+		buf = dict()
 		buf['id'] = data['Ident']
-		if 'GW' in data['Ident']:
+		if 'MS' in data['Ident']:
+			buf['type'] = "electric_substaion"
+			buf['label'] = "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0441\u0442\u0430\u043d\u0446\u0438\u044f"
+		elif 'SS' in data['Ident']:
+			buf['type'] = "mini_electric_substaion"
+			buf['label'] = "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u043f\u043e\u0434\u0441\u0442\u0430\u043d\u0446\u0438\u044f"
+		elif 'GW' in data['Ident']:
 			buf['type'] = "wind"
 			buf['label'] = "\u0412\u0435\u0442\u0440\u043e\u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 " + data['Ident'].split('_')[-1]
 		elif 'GS' in data['Ident']:
@@ -71,11 +76,16 @@ class GraphMaker:
 			buf['label'] = "\u041c\u0438\u043a\u0440\u043e\u0440\u0430\u0439\u043e\u043d " + data['Ident'].split('_')[-1]	
 		elif 'CF' in data['Ident']:
 			buf['type'] = 'factory'
-			buf['label'] = "\u0424\u0430\u0431\u0440\u0438\u043a\u0430 " + data['Ident'].split('_')[-1]	
+			buf['label'] = "\u0424\u0430\u0431\u0440\u0438\u043a\u0430 " + data['Ident'].split('_')[-1]
+		elif 'SN' in data['Ident']:
+			buf['type'] = 'subnet'
+			buf['label'] = "Подсеть " + data['Ident'].split('_')[-1]	
 		else:
 			buf['type'] = 'unknown'
 			buf['label'] = 'хз чо это'
-		return {'data':buf}
+		node = {'data': buf}
+		self.nodes[buf['id']] = node
+		return node
 
 	def insertData(self, obj):
 		d = {
@@ -92,68 +102,91 @@ class GraphMaker:
 		self.data.append({'object_id': obj['Ident'], 'object_data':[d]})
 		return
 
+	def processingGenerators(self, target, data):
+		stick_MS_Generators = self.getNewStick(target)
+		for i in data:
+			if i == None:
+				self.getNewStick(stick_MS_Generators)
+			else:
+				newGenerator = self.createNewNode(i)
+				self.insertData(i)
+				self.createNewEdge(stick_MS_Generators, newGenerator, self.getColor(i))
+
+	def processingSubnets(self, target, data):
+		for subnet in data:
+			if subnet == None:
+				self.getNewStick(target)
+			else:
+				snNode = self.createNewNode(subnet)
+				self.insertData(subnet)
+				self.createNewEdge(target, snNode, self.getColor(subnet))
+				#processing information about subnet items
+				for i in subnet['Items']:
+					iNode = self.createNewNode(i)
+					#saving info about item links
+					self.items.append(i)
+
+	def processinSubstation(self, data):
+		try:
+			nodeMS = self.createNewNode(data)
+			self.insertData(data)
+		except Exception as e:
+			print("Crating electric substation failed!")
+			print(str(e))
+			return None
+
+		#processing info about generaters
+		if 'Generators' in data:
+			self.processingGenerators(nodeMS, data['Generators'])
+
+		#processing info about reserved generaters
+		if 'ReservedGenerators' in data:
+			self.processingGenerators(nodeMS, data['ReservedGenerators'])
+
+		#processing information about electric substation subnets
+		if 'Subnets' in data:
+			self.processingSubnets(nodeMS, data['Subnets'])
+		return nodeMS
+
 	def generateNewData(self, data):
 		try:
+			self.nodes = dict()
+			self.edges = list()
+			self.items = list() #for saving inforamtion about items links
 			self.step = self.step + 1
 			self.stickCount = 0
-			if 'Generators' in data:
-				esStick = self.getNewStick()
-				self.nodes.append(esStick)
-				self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
-				for i in data['Generators']:
-					if i == None:
-						continue
-					g = self.getNewNode(i)
-					self.insertData(i) 
-					self.nodes.append(g)
-					self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
+			#insert info about substation
+			nodeMS = self.processinSubstation(data)
+			if not nodeMS:
+				return
 
-			if 'ReservedGenerators' in data:
-				esStick = self.getNewStick()
-				self.nodes.append(esStick)
-				self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
-				for i in data['ReservedGenerators']:
-					if i == None:
-						continue
-					g = self.getNewNode(i)
-					self.insertData(i)
-					self.nodes.append(g)
-					self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
-
-			if 'Subnets' in data:
-				for i in data['Subnets']:
-					esStick = self.getNewStick()
-					self.nodes.append(esStick)
-					self.edges.append(self.getNewEdge(self.electric_substaion, esStick))
-					if i == None:
-						continue
-					for j in i['Items']:
-						if j == None:
-							continue
-						g = self.getNewNode(j)
-						self.insertData(j) 
-						self.nodes.append(g)
-						self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
-
+			#processing information about mini electric substation
 			if 'Substation' in data:
-				self.nodes.append(self.mini_electric_substaion)
-				self.edges.append(self.getNewEdge(self.electric_substaion, self.mini_electric_substaion))
-				if 'Subnets' in data['Substation']:
-					for i in data['Substation']['Subnets']:
-						esStick = self.getNewStick()
-						self.nodes.append(esStick)
-						self.edges.append(self.getNewEdge(self.mini_electric_substaion, esStick))
-						if i == None:
-							continue
-						for j in i['Items']:
-							if j == None:
-								continue
-							g = self.getNewNode(j)
-							self.insertData(j)
-							self.nodes.append(g)
-							self.edges.append(self.getNewEdge(esStick, g, "#74E883" if i['IsOn'] else "#E8747C"))
-			
+				nodeSS = self.processinSubstation(data['Substation'])
+				if nodeSS:
+					self.createNewEdge(nodeMS, nodeSS, self.getColor(data['Substation']))
+				else:
+					print('Mini electric station: getting information failed')
+
+
+			#processing information about consumer items links
+			for item in self.items:
+				self.insertData(item)
+				iNode = self.getNode(item['Ident'])
+				if not iNode:
+					print('Item node not found')
+					continue
+				for link in item['SubnetLinks']:
+					if link == None:
+						self.getNewStick(iNode)
+						continue
+					snNode = self.getNode(link['SubnetLink'])
+					if not snNode:
+						self.getNewStick(iNode)
+						continue
+					self.createNewEdge(iNode, snNode, self.getColor(link))
+
 		except Exception as e:
+			print('Error during generateNewData')
 			print(str(e))
-			print('invalid grap data')
 		return
