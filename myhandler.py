@@ -11,6 +11,7 @@ gm = GraphMaker()
 
 def resetData():
 	gm.data = list()
+	gm.step = 0
 
 def getDataChart():
 	return(bytes(json.dumps(gm.getData()), 'utf8'))
