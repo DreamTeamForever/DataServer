@@ -1,7 +1,7 @@
 import http.client
 import json
 
-server_url = '10.0.0.6:8888'
+server_url = '192.168.1.70:8888'
 connection_timeout = 5
 
 def doGET(url):
