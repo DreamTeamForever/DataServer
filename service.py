@@ -9,8 +9,6 @@ import strip
 antiPost = ['/']
 
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
-	isStart = False
-
 	def setup(self):
 		BaseHTTPRequestHandler.setup(self)
 		self.request.settimeout(10)
@@ -43,14 +41,14 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.send_header('Access-Control-Allow-Origin','*')
 		if not self.path in antiPost :
 			if self.path == '/startGame':
-				self.isStart = True
-				print('start game')
-				strip.startGame()
+				if not strip.startGame():
+					self.send_response(500)
 			elif self.path == '/stopGame':
-				self.isStart = False
-				myhandler.resetData()
-				print('stop game')
-				strip.stopGame()
+				if strip.stopGame():
+					myhandler.resetData()
+				else:
+					self.send_response(500)
+					
 			elif self.path == '/resetDefault':
 				print('restart')
 				if not myhandler.resetRequest():
@@ -59,8 +57,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 				content_len = int(self.headers['Content-Length'])
 				data = self.rfile.read(content_len)
 				myhandler.saveData(data, self.path)
-				print(self.isStart)
-				if self.path == '/objectCollections':
+				if strip.isStarted() and self.path == '/objectCollections':
 					strip.updateObjects()
 		else:
 			self.send_response(404)

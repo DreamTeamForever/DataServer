@@ -3,6 +3,7 @@ import json
 
 server_url = '192.168.1.70:8888'
 connection_timeout = 5
+isGameStarted = False
 
 def doGET(url):
 	try:
@@ -28,6 +29,7 @@ def doPOST(url, data):
 		return None
 
 def startGame():
+	global isGameStarted
 	buf = {}
 	with open('./data/_gameSettings', 'r') as f:
 		buf['settings'] = json.loads(f.read())
@@ -37,20 +39,23 @@ def startGame():
 		buf['models'] = json.loads(f.read())
 
 	res = doPOST('/PowerSystem/StartGame', bytes(json.dumps({"clientmodel": buf}), 'utf8'))
-	print(str(res.status), res.read())
-	return
+	isGameStarted = True if res else False
+	return isGameStarted
 
 def stopGame():
+	global isGameStarted
 	res = doGET('/PowerSystem/StopGame')
-	print(res)
-	return
+	isGameStarted = False if res else True
+	return not isGameStarted
+
+def isStarted():
+	global isGameStarted
+	return isGameStarted
 
 
 def updateObjects():
 	buf = {}
 	with open('./data/_objectCollections', 'r') as f:
 		buf['objects'] = json.loads(f.read())
-
 	res = doPOST('/PowerSystem/StartGame', bytes(json.dumps({"clientmodel": buf}), 'utf8'))
-	print(str(res.status), res.read())
 	return
