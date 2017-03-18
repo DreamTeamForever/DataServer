@@ -11,7 +11,7 @@ class GraphMaker:
 		
 	def getNewStick(self, node):
 		i = "stick_{}".format(self.stickCount)
-		newStick = {"data": {"id": i,"label": "","type": "stick"}}
+		newStick = {"data": {"id": i,"label": "","type": "stick",'color_node':'#1ab394'}}
 		self.stickCount += 1
 		self.nodes[i] = newStick
 		self.createNewEdge(node, newStick)
@@ -85,6 +85,7 @@ class GraphMaker:
 			buf['label'] = "\u0424\u0430\u0431\u0440\u0438\u043a\u0430 " + data['Ident'].split('_')[-1]
 		elif 'SN' in data['Ident']:
 			buf['type'] = 'stick'
+			buf['color_node'] = '#1ab394'
 			buf['label'] = ""	
 		else:
 			buf['type'] = 'unknown'
