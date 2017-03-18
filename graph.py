@@ -33,8 +33,13 @@ class GraphMaker:
 	def getResult(self):
 		return {'nodes': [self.nodes[i] for i in self.nodes], 'edges': self.edges}
 
-	def getColor(self, i):
+	def getEdgeColor(self, i):
 		return "#74E883" if i['IsOn'] else "#E8747C"
+
+	def getNodeColor(self, i):
+		if 'AvailPower' in i and 'ReqiredPower' in i:
+			return "#74E883" if i['AvailPower'] >= i['ReqiredPower'] else "#E8747C"
+		return "#1ab394"
 
 	def getData(self):
 		return self.data
@@ -50,6 +55,7 @@ class GraphMaker:
 			return self.nodes[data['Ident']]
 		buf = dict()
 		buf['id'] = data['Ident']
+		buf['color_node'] = self.getNodeColor(data) 
 		if 'MS' in data['Ident']:
 			buf['type'] = "electric_substaion"
 			buf['label'] = "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0441\u0442\u0430\u043d\u0446\u0438\u044f"
@@ -110,7 +116,7 @@ class GraphMaker:
 			else:
 				newGenerator = self.createNewNode(i)
 				self.insertData(i)
-				self.createNewEdge(stick_MS_Generators, newGenerator, self.getColor(i))
+				self.createNewEdge(stick_MS_Generators, newGenerator, self.getEdgeColor(i))
 
 	def processingSubnets(self, target, data):
 		for subnet in data:
@@ -119,7 +125,7 @@ class GraphMaker:
 			else:
 				snNode = self.createNewNode(subnet)
 				self.insertData(subnet)
-				self.createNewEdge(target, snNode, self.getColor(subnet))
+				self.createNewEdge(target, snNode, self.getEdgeColor(subnet))
 				#processing information about subnet items
 				for i in subnet['Items']:
 					iNode = self.createNewNode(i)
@@ -164,7 +170,7 @@ class GraphMaker:
 			if 'Substation' in data:
 				nodeSS = self.processinSubstation(data['Substation'])
 				if nodeSS:
-					self.createNewEdge(nodeMS, nodeSS, self.getColor(data['Substation']))
+					self.createNewEdge(nodeMS, nodeSS, self.getEdgeColor(data['Substation']))
 				else:
 					print('Mini electric station: getting information failed')
 
@@ -184,7 +190,7 @@ class GraphMaker:
 					if not snNode:
 						self.getNewStick(iNode)
 						continue
-					self.createNewEdge(iNode, snNode, self.getColor(link))
+					self.createNewEdge(iNode, snNode, self.getEdgeColor(link))
 
 		except Exception as e:
 			print('Error during generateNewData')
