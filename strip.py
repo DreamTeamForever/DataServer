@@ -57,5 +57,5 @@ def updateObjects():
 	buf = {}
 	with open('./data/_objectCollections', 'r') as f:
 		buf['objects'] = json.loads(f.read())
-	res = doPOST('/PowerSystem/StartGame', bytes(json.dumps({"clientmodel": buf}), 'utf8'))
+	res = doPOST('/PowerSystem/UpdateObjects', bytes(json.dumps(buf), 'utf8'))
 	return

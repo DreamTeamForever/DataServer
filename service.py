@@ -44,9 +44,8 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 				if not strip.startGame():
 					self.send_response(500)
 			elif self.path == '/stopGame':
-				if strip.stopGame():
-					myhandler.resetData()
-				else:
+				myhandler.resetData()
+				if not strip.stopGame():
 					self.send_response(500)
 					
 			elif self.path == '/resetDefault':
