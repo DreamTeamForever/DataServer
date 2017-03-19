@@ -194,11 +194,9 @@ class GraphMaker:
 					continue
 				for link in item['SubnetLinks']:
 					if link == None:
-						self.getNewStick(iNode)
 						continue
 					snNode = self.getNode(link['SubnetLink'])
 					if not snNode:
-						self.getNewStick(iNode)
 						continue
 					self.createNewEdge(iNode, snNode, self.getEdgeColor(link))
 
