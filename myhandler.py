@@ -41,3 +41,6 @@ def resetRequest():
 		return True
 	except:
 		return False
+
+def getGameTime():
+	return(bytes(json.dumps({'time': gm.getGameTime()}), 'utf8'))

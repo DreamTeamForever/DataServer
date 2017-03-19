@@ -4,6 +4,7 @@ import json
 class GraphMaker:
 	def __init__(self):
 		self.stickCount = 0
+		self.gameTime = 0
 		self.step = 0
 		self.data = list()
 		self.nodes = dict()
@@ -155,12 +156,16 @@ class GraphMaker:
 			self.processingSubnets(nodeMS, data['Subnets'])
 		return nodeMS
 
+	def getGameTime(self):
+		return self.gameTime
+
 	def generateNewData(self, data):
 		try:
 			self.nodes = dict()
 			self.edges = list()
 			self.items = list() #for saving inforamtion about items links
 			self.step = self.step + 1
+			self.gameTime = data['ModelTime'] if 'ModelTime' in data else -1
 			self.stickCount = 0
 			#insert info about substation
 			nodeMS = self.processinSubstation(data)

@@ -24,6 +24,8 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 			message =  myhandler.getGraphData()
 		elif self.path == '/dataChart':
 			message =  myhandler.getDataChart()
+		elif self.path == '/gameTime':
+			message = myhandler.getGameTime()
 		else:
 			try:
 				message =  myhandler.getData(self.path)
