@@ -159,6 +159,10 @@ class GraphMaker:
 	def getGameTime(self):
 		return self.gameTime
 
+	def getEconomicData(self):
+		#{'object_data': [{'input': 401.4, 'average_load': '57', 'output': 700, 'step': 1}], 'object_id': 'MS_001'
+		return [{'object_id': i['object_id'], 'object_data': [{'incom': 2.45*(j['input'] - j['output']), 'step': j['step']} for j in i['object_data']]} for i in self.getData()] 
+
 	def generateNewData(self, data):
 		try:
 			self.nodes = dict()

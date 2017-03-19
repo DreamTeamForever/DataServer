@@ -24,6 +24,9 @@ def getGraphData():
 		print('New graph data nod found. Using old graph data.')
 	return bytes(json.dumps(gm.getResult()), 'utf8')
 
+def getEconomicData():
+	return bytes(json.dumps({'economic': gm.getEconomicData()}), 'utf8')
+
 def saveData(data, name):
 	with open("./data/"+name.replace('/', '_'), "wb") as f:
 		f.write(data)
