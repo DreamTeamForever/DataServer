@@ -12,7 +12,7 @@ class GraphMaker:
 		
 	def getNewStick(self, node):
 		i = "stick_{}".format(self.stickCount)
-		newStick = {"data": {"id": i,"label": "","type": "stick",'color_node':'#1ab394'}}
+		newStick = {"data": {"id": i,"label": "","type": "stick","color_node": "#1ab394"}}
 		self.stickCount += 1
 		self.nodes[i] = newStick
 		self.createNewEdge(node, newStick)
@@ -56,7 +56,7 @@ class GraphMaker:
 			return self.nodes[data['Ident']]
 		buf = dict()
 		buf['id'] = data['Ident']
-		buf['color_node'] = self.getNodeColor(data) 
+		buf['color_node'] = 'red' #self.getNodeColor(data) 
 		if 'MS' in data['Ident']:
 			buf['type'] = "electric_substaion"
 			buf['label'] = "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0441\u0442\u0430\u043d\u0446\u0438\u044f"
@@ -161,7 +161,7 @@ class GraphMaker:
 
 	def getEconomicData(self):
 		#{'object_data': [{'input': 401.4, 'average_load': '57', 'output': 700, 'step': 1}], 'object_id': 'MS_001'
-		return [{'object_id': i['object_id'], 'object_data': [{'incom': 2.45*(j['input'] - j['output']), 'step': j['step']} for j in i['object_data']]} for i in self.getData()] 
+		return [{'object_id': i['object_id'], 'object_data': [{'incom': 2.45*abs(j['input'] - j['output']), 'step': j['step']} for j in i['object_data']]} for i in self.getData()] 
 
 	def generateNewData(self, data):
 		try:
