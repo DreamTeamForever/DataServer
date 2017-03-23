@@ -8,7 +8,7 @@ class GraphMaker:
 		self.gameTime = 0
 		self.step = -1
 		self.maxDataSize = 100
-		self.partsProportions = int(self.maxDataSize * 2/3)
+		self.partsProportions = int(self.maxDataSize * 1/3)
 		self.nextRemoved = 1
 		self.data = list()
 		self.nodes = dict()
