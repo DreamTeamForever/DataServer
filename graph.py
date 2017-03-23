@@ -6,6 +6,9 @@ class GraphMaker:
 		self.stickCount = 0
 		self.gameTime = 0
 		self.step = 0
+		self.maxDataSize = 100
+		self.partsProportions = int(self.maxDataSize * 2/3)
+		self.nextRemoved = 1
 		self.data = list()
 		self.nodes = dict()
 		self.edges = list()
@@ -105,6 +108,9 @@ class GraphMaker:
 
 		for i in self.data:
 			if i['object_id'] == obj['Ident']:
+				if len(i['object_data']) >= self.maxDataSize:
+					del i['object_data'][self.nextRemoved]
+					self.nextRemoved = (self.nextRemoved % self.partsProportions) + 1
 				i['object_data'].append(d)
 				return
 		self.data.append({'object_id': obj['Ident'], 'object_data':[d]})
