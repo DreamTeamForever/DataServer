@@ -130,7 +130,7 @@ class GraphMaker:
 	def processingSubnets(self, target, data):
 		for subnet in data:
 			if subnet == None:
-				self.getNewStick(target)
+				continue
 			else:
 				snNode = self.createNewNode(subnet)
 				self.insertData(subnet)
