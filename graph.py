@@ -164,7 +164,7 @@ class GraphMaker:
 		return nodeMS
 
 	def getGameTime(self):
-		return strftime("%d:%H:%M", gmtime(self.step*1200))
+		return strftime("%d:%H:%M", gmtime((self.step if self.step > 0 else 0)*1200))
 
 	def getEconomicData(self):
 		#{'object_data': [{'input': 401.4, 'average_load': '57', 'output': 700, 'step': 1}], 'object_id': 'MS_001'
@@ -172,10 +172,7 @@ class GraphMaker:
 
 	def generateNewData(self, data):
 		try:
-			if not data['IsModeling']:
-				time = 1
-				return
-			time = data['ModelTime'] if 'ModelTime' in data else (self.step + 1)
+			time = data['ModelTime']
 			if time == self.step:
 				return
 			self.nodes = dict()
