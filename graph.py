@@ -118,11 +118,13 @@ class GraphMaker:
 		return
 
 	def processingGenerators(self, target, data):
-		stick_MS_Generators = self.getNewStick(target)
+		stick_MS_Generators = None
 		for i in data:
 			if i == None:
-				self.getNewStick(stick_MS_Generators)
+				continue
 			else:
+				if stick_MS_Generators == None:
+					stick_MS_Generators = self.getNewStick(target)
 				newGenerator = self.createNewNode(i)
 				self.insertData(i)
 				self.createNewEdge(stick_MS_Generators, newGenerator, self.getEdgeColor(i))
