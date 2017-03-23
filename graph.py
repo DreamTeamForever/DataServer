@@ -78,7 +78,7 @@ class GraphMaker:
 			buf['label'] = "\u0414\u0438\u0437\u0435\u043b\u044c \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 #" + data['Ident'].split('_')[-1]
 		elif 'GRA' in data['Ident']:
 			buf['type'] = 'accumulate'
-			buf['label'] = "\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0430\u043a\u043a\u0443\u043c\u0443\u043b\u044f\u0442\u043e\u0440 #" + data['Ident'].split('_')[-1]
+			buf['label'] = "Аккумулятор #" + data['Ident'].split('_')[-1]
 		elif 'CH' in data['Ident']:
 			buf['type'] = 'hospital'
 			buf['label'] = "Больница #" + data['Ident'].split('_')[-1]	
@@ -87,7 +87,7 @@ class GraphMaker:
 			buf['label'] = "\u041c\u0438\u043a\u0440\u043e\u0440\u0430\u0439\u043e\u043d #" + data['Ident'].split('_')[-1]	
 		elif 'CF' in data['Ident']:
 			buf['type'] = 'factory'
-			buf['label'] = "\u0424\u0430\u0431\u0440\u0438\u043a\u0430 #" + data['Ident'].split('_')[-1]
+			buf['label'] = "Завод #" + data['Ident'].split('_')[-1]
 		elif 'SN' in data['Ident']:
 			buf['type'] = 'stick'
 			buf['color_node'] = '#1ab394'
