@@ -172,11 +172,13 @@ class GraphMaker:
 
 	def generateNewData(self, data):
 		try:
+			time = data['ModelTime'] if 'ModelTime' in data else (self.step + 1)
+			if time == self.step:
+				return
 			self.nodes = dict()
 			self.edges = list()
 			self.items = list() #for saving inforamtion about items links
-			self.step = self.step + 1
-			self.gameTime = data['ModelTime'] if 'ModelTime' in data else -1
+			self.step = time
 			self.stickCount = 0
 			#insert info about substation
 			nodeMS = self.processinSubstation(data)
