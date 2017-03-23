@@ -101,7 +101,7 @@ class GraphMaker:
 
 	def insertData(self, obj):
 		d = {
-		        "step": strftime("%H:%M:%S", gmtime(self.step*20)),
+		        "step": strftime("%d:%H:%M", gmtime(self.step*1200)),
 		        "input": obj["AvailPower"] if "AvailPower" in obj else -1,
 		        "output": obj["ReqiredPower"] if "ReqiredPower" in obj else -1,
 		        "average_load": str(obj["Overload"] if "Overload" in obj else -1) 
@@ -164,7 +164,7 @@ class GraphMaker:
 		return nodeMS
 
 	def getGameTime(self):
-		return self.gameTime
+		return strftime("%d:%H:%M", gmtime(self.step*1200))
 
 	def getEconomicData(self):
 		#{'object_data': [{'input': 401.4, 'average_load': '57', 'output': 700, 'step': 1}], 'object_id': 'MS_001'
