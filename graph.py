@@ -1,11 +1,12 @@
 import json
+from time import gmtime, strftime
 
 
 class GraphMaker:
 	def __init__(self):
 		self.stickCount = 0
 		self.gameTime = 0
-		self.step = 0
+		self.step = -1
 		self.maxDataSize = 100
 		self.partsProportions = int(self.maxDataSize * 2/3)
 		self.nextRemoved = 1
@@ -100,7 +101,7 @@ class GraphMaker:
 
 	def insertData(self, obj):
 		d = {
-		        "step": self.step,
+		        "step": strftime("%H:%M:%S", gmtime(self.step*20)),
 		        "input": obj["AvailPower"] if "AvailPower" in obj else -1,
 		        "output": obj["ReqiredPower"] if "ReqiredPower" in obj else -1,
 		        "average_load": str(obj["Overload"] if "Overload" in obj else -1) 
