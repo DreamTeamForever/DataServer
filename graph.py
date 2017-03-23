@@ -60,7 +60,7 @@ class GraphMaker:
 			return self.nodes[data['Ident']]
 		buf = dict()
 		buf['id'] = data['Ident']
-		buf['color_node'] = 'red' #self.getNodeColor(data) 
+		buf['color_node'] = self.getNodeColor(data) 
 		if 'MS' in data['Ident']:
 			buf['type'] = "electric_substaion"
 			buf['label'] = "Подстанция"
