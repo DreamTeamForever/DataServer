@@ -172,6 +172,9 @@ class GraphMaker:
 
 	def generateNewData(self, data):
 		try:
+			if not data['IsModeling']:
+				time = 1
+				return
 			time = data['ModelTime'] if 'ModelTime' in data else (self.step + 1)
 			if time == self.step:
 				return

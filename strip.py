@@ -1,7 +1,7 @@
 import http.client
 import json
 
-server_url = '127.0.0.1:8888'
+server_url = '192.168.1.70:8888'
 connection_timeout = 5
 isGameStarted = False
 
